@@ -5,12 +5,7 @@ from telethon import types as t
 # from telethon.tl.functions.messages import GetDialogsRequest
 # # from telethon.tl.types import InputPeerEmpty
 # from telethon.tl.custom import Button
-#test sdsds sfdgertghfdgh
-#test sdfsdfsdf
-#gjgorpr;gk
-
-
-
+from Config import api_hash,api_id
 from aiogram import Bot, types
 from aiogram.dispatcher import Dispatcher
 from aiogram.utils import executor
@@ -26,11 +21,10 @@ logging.basicConfig(format='[%(levelname) 5s/%(asctime)s] %(name)s: %(message)s'
 
 
 #Roman
-api_id = 11723199
-api_hash = '44e5197f69f26f0ea8494a4a7bf53411'
 client = TelegramClient('anon', api_id, api_hash)
 client.parse_mode = 'html'
 client.start()
+
 
 async def my_groups():
 
