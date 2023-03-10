@@ -10,7 +10,7 @@ from telethon import types as t
 #gjgorpr;gk
 
 
-#Sayna LOX
+
 from aiogram import Bot, types
 from aiogram.dispatcher import Dispatcher
 from aiogram.utils import executor
