@@ -1,6 +1,5 @@
-from loader import client
-
-
+from loader import client,bot
+from telethon import TelegramClient, events, utils
 
 @client.on(events.NewMessage)
 async def my_event_handler(event):
@@ -14,8 +13,6 @@ async def my_event_handler(event):
     title = None
 
     if hasattr(event.message.to_id, 'channel_id'):
-        print('сообщение пришло в канал (тип channel_id) -------------------------------')
-        #print(event)
         print(event.message)
         await client.download_media(event.message.media,"./photo.jpg") 
         if event.message.media:
@@ -46,13 +43,10 @@ async def my_event_handler(event):
             x = ['message_forward', {'chat_id': event.chat_id, 'title': title, 'msg_text':event.message.message, 'username' : username, 'first_name' :first_name, 'last_name': last_name, 'link' :link}]
             print(x)
     if hasattr(event.message.to_id, 'chat_id'):
-        print('сообщение в группу (chat_id) ---------------------------------')
         print(event)
         #     chat = await client.get_input_entity(event.message.to_id)
 
 
-    if hasattr(event.message.to_id, 'user_id'):
-        print('сообщение в личку  ------------------------------')
         print(event)
         return
 
