@@ -6,6 +6,8 @@ from telethon import types as t
 # # from telethon.tl.types import InputPeerEmpty
 # from telethon.tl.custom import Button
 #test sdsds sfdgertghfdgh
+#test
+#gjgorpr;gk
 from aiogram import Bot, types
 from aiogram.dispatcher import Dispatcher
 from aiogram.utils import executor
