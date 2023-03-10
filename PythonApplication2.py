@@ -5,13 +5,13 @@ from telethon import types as t
 # from telethon.tl.functions.messages import GetDialogsRequest
 # # from telethon.tl.types import InputPeerEmpty
 # from telethon.tl.custom import Button
-from Config import api_hash,api_id
+from Config import api_hash,api_id,Token_bot
 from aiogram import Bot, types
 from aiogram.dispatcher import Dispatcher
 from aiogram.utils import executor
 import logging
 from telethon.tl.functions.channels import JoinChannelRequest
-bot = Bot(token="5938016396:AAGt7I3yQgxMWMQfj7evWuDBV8B9z-yLW_c")
+bot = Bot(token=Token_bot)
 dp = Dispatcher(bot)
 
 
