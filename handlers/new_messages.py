@@ -13,7 +13,6 @@ async def my_event_handler(event):
     title = None
 
     if hasattr(event.message.to_id, 'channel_id'):
-        print(event.message)
         await client.download_media(event.message.media,"./photo.jpg") 
         if event.message.media:
             if event.message.message:
