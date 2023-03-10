@@ -7,7 +7,8 @@ from telethon import types as t
 # from telethon.tl.custom import Button
 #test sdsds sfdgertghfdgh
 #test sdfsdfsdf
-#gjgorpr;gk
+#gjgorpr;gk dsfdfs
+#GOLOGRAMMA
 from aiogram import Bot, types
 from aiogram.dispatcher import Dispatcher
 from aiogram.utils import executor
