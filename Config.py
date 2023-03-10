@@ -1,0 +1,3 @@
+#ALL CONFIG
+api_hash = "44e5197f69f26f0ea8494a4a7bf53411"
+api_id   = 11723199
