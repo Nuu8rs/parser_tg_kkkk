@@ -41,7 +41,7 @@ async def my_event_handler(event):
                 with open('./photo.jpg', "rb") as f:
                     await bot.send_photo(5841914430, f, reply_markup=url_kbd(real_id, event))
         else:
-            await bot.send_message(5841914430,event.message.message, reply_markup=url_kbd(real_id, event))
+            await bot.send_message(5841914430,format_message(title, f"({first_name} {last_name}) {username}", event.message.message), reply_markup=url_kbd(real_id, event))
 
         return
 
