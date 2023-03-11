@@ -1,7 +1,7 @@
 from loader import client,bot
 from telethon import TelegramClient, events, utils
 from keyboards.url_keyboard import url_kbd
-from utils.tools import format_message
+from utils.tools import format_message, get_keywords
 
 @client.on(events.NewMessage)
 async def my_event_handler(event):
@@ -31,7 +31,9 @@ async def my_event_handler(event):
             last_name = ''
         if hasattr(chat, 'title'):
             title = chat.title
-
+        for word in get_keywords():
+            if word in event.message.text.split():
+                return
         if event.message.media:
             await client.download_media(event.message.media,"./photo.jpg") 
             if event.message.message:
