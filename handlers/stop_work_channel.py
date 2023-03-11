@@ -4,7 +4,7 @@ from aiogram.dispatcher import FSMContext
 from telethon.tl.functions.channels import JoinChannelRequest
 from telethon.tl.functions.messages import ImportChatInviteRequest
 from telethon.tl.functions.channels import LeaveChannelRequest
-from keyboards.url_keyboard import get_all_channel_keyboard , change_keyboard_channel
+from keyboards.keyboard_bot import get_all_channel_keyboard , change_keyboard_channel
 
 
 @dp.message_handler(text=["Ваши чаты","/start"],state="*")
