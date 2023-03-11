@@ -49,6 +49,10 @@
   },
   "-1001988274513": {
     "Group_Name": "ТЕСТ 2",
-    "Work": "False"
+    "Work": "True"
+  },
+  "-1001904204672": {
+    "Group_Name": "DEBUG",
+    "Work": "True"
   }
 }
