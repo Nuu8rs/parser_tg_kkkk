@@ -46,6 +46,8 @@ async def join_channel(message_chanel):
          return True
       except Exception as E:
          print(E)
+         res = await client.get_entity("https://t.me/+"+message_chanel)
+         print(res)
          return False
 
 
