@@ -1,5 +1,6 @@
 from loader import client,bot
 from telethon import TelegramClient, events, utils
+from keyboards.url_keyboard import url_kbd
 
 @client.on(events.NewMessage)
 async def my_event_handler(event):
@@ -14,15 +15,16 @@ async def my_event_handler(event):
 
     if hasattr(event.message.to_id, 'channel_id'):
         await client.download_media(event.message.media,"./photo.jpg") 
+        real_id, peer_type = utils.resolve_id(event.chat_id)
         if event.message.media:
             if event.message.message:
                 with open('./photo.jpg', "rb") as f:
-                    await bot.send_photo(5841914430, f,caption=event.message.message)
+                    await bot.send_photo(5841914430, f,caption=event.message.message, reply_markup=url_kbd(real_id, event))
             else:
                 with open('./photo.jpg', "rb") as f:
-                    await bot.send_photo(5841914430, f)
+                    await bot.send_photo(5841914430, f, reply_markup=url_kbd(real_id, event))
         else:
-            await bot.send_message(5841914430,event.message.message)
+            await bot.send_message(5841914430,event.message.message, reply_markup=url_kbd(real_id, event))
         return
         real_id, peer_type = utils.resolve_id(event.chat_id)
         link = f"https://t.me/c/{real_id}/{event.id}"
