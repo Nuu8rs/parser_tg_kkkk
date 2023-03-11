@@ -7,7 +7,7 @@ from aiogram.utils import executor
 import logging
 from telethon.tl.functions.channels import JoinChannelRequest
 from loader import bot, dp, client
-from handlers import __init__
+import handlers
 
 
 
