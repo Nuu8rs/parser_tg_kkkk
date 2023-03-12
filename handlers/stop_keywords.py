@@ -1,4 +1,4 @@
-﻿from loader import bot,dp,storage
+from loader import bot,dp,storage
 from aiogram.dispatcher import FSMContext
 from aiogram import types
 from keyboards.stop_keywords import stop_kbd

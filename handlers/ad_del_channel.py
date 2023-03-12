@@ -9,19 +9,17 @@ from telethon.tl.functions.messages import GetDialogsRequest
 from telethon.tl.types import InputPeerEmpty
 import json
 
-#Кнопка с текстом "📎Добавить канал" 
-@dp.message_handler(text_contains="📎Добавить канал",state="*")
-async def send_(msg : types.Message, state: FSMContext):   
+@dp.callback_query_handler(text_contains="channel_add")
+async def callb(call: types.CallbackQuery,state:FSMContext):
    await state.finish()
-   await msg.answer("Введите ссылку на группу/канал в который бот должен зайти")
+   await call.message.edit_text("Введите ссылку на группу/канал в который бот должен зайти")
    await state.set_state("msg_channel_join")
 
 #Обработка сообщение чтобы подходил по параметрам
 @dp.message_handler(state="msg_channel_join")
 async def wots(msg : types.Message, state: FSMContext):     
    if "https://t.me/" in msg.text:
-      address_chanel = msg.text.split("/")[-1].replace("+","")
-      print(address_chanel)
+      address_chanel = msg.text
       result = await join_channel(address_chanel)
       if result:
          await msg.answer(f"Бот успешно подключился - <a href='{msg.text}'>Канал</a>")
@@ -35,25 +33,32 @@ async def wots(msg : types.Message, state: FSMContext):
 
 #Добавление в каналы
 async def join_channel(message_chanel):
+   message = message_chanel.split("/")[-1].replace("+","")
    try:
-      title = await client(JoinChannelRequest(message_chanel))
-      await add_to_json(title)
+      title = await client(JoinChannelRequest(message))
+      await add_to_json(title,True)
       return True
    except:
       try:
-         title = await client(ImportChatInviteRequest(message_chanel))
-         await add_to_json(title)
+         title = await client(ImportChatInviteRequest(message))
+         await add_to_json(title,True)
          return True
       except Exception as E:
-         print(E)
+         if str(E) == "The authenticated user is already a participant of the chat (caused by ImportChatInviteRequest)":
+            res = await client.get_entity(message_chanel)
+            await add_to_json(res,False)
+            return True
          return False
 
 
 
-async def add_to_json(title):
-   id_channel = "-100" + str(title.chats[0].id)
-   title_channel = title.chats[0].title
-   #str(id_channel):{"Group_Name":title_channel,"Work":"True"}
+async def add_to_json(title,operator):
+   if operator:
+      id_channel = "-100" + str(title.chats[0].id)
+      title_channel = title.chats[0].title
+   else:
+      id_channel = "-100"+str(title.id)
+      title_channel = title.title
    with open('file.json', encoding='utf8') as f: 
       data = json.load(f) 
       data[str(id_channel)]={"Group_Name":title_channel,"Work":"True"}

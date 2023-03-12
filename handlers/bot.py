@@ -1,10 +1,7 @@
 from loader import bot,dp
 from aiogram import Bot, types
 
-@dp.message_handler(commands=['start'])
-async def process_start_command(message: types.Message):
-    print("debug")
-    await message.reply("Привет!\nНапиши мне что-нибудь!")
+
 
 
 @dp.message_handler(commands=['help'])

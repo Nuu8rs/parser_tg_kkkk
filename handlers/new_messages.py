@@ -2,7 +2,7 @@ from loader import client,bot
 from telethon import TelegramClient, events, utils
 from keyboards.url_keyboard import url_kbd
 from utils.tools import format_message, get_keywords
-
+import json
 @client.on(events.NewMessage)
 async def my_event_handler(event):
 
@@ -34,16 +34,23 @@ async def my_event_handler(event):
         for word in get_keywords():
             if word in event.message.text.split():
                 return
-        if event.message.media:
-            await client.download_media(event.message.media,"./photo.jpg") 
-            if event.message.message:
-                with open('./photo.jpg', "rb") as f:
-                    await bot.send_photo(5841914430, f,caption=format_message(title, f"({first_name} {last_name}) {username}", event.message.message), reply_markup=url_kbd(real_id, event))
-            else:
-                with open('./photo.jpg', "rb") as f:
-                    await bot.send_photo(5841914430, f, reply_markup=url_kbd(real_id, event))
-        else:
-            await bot.send_message(5841914430,format_message(title, f"({first_name} {last_name}) {username}", event.message.message), reply_markup=url_kbd(real_id, event))
+        channel_id = "-100"+str(event.message.peer_id.channel_id)
+        f = open("file.json","r+",encoding="UTF-8")
+        data = json.load(f)
+        if channel_id in data:
+            if data.get(channel_id)["Work"] == "True":
+                print(event.message.media)
+                if "MessageMediaPhoto" in str(event.message.media):
+                    await client.download_media(event.message.media,"./photo.jpg") 
+                    if event.message.message:
+                        with open('./photo.jpg', "rb") as f:
+                            await bot.send_photo(5841914430, f,caption=format_message(title, f"({first_name} {last_name}) {username}", event.message.message), reply_markup=url_kbd(real_id, event))
+                    else:
+                        with open('./photo.jpg', "rb") as f:
+                            await bot.send_photo(5841914430, f, reply_markup=url_kbd(real_id, event))
+                else:
+                    if event.message.message:
+                        await bot.send_message(5841914430,format_message(title, f"({first_name} {last_name}) {username}", event.message.message), reply_markup=url_kbd(real_id, event))
 
         return
 
