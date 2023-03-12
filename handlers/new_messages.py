@@ -34,13 +34,13 @@ async def my_event_handler(event):
         for word in get_keywords():
             if word in event.message.text.split():
                 return
-        print(event.message.peer_id.channel_id)
         channel_id = "-100"+str(event.message.peer_id.channel_id)
         f = open("file.json","r+",encoding="UTF-8")
         data = json.load(f)
         if channel_id in data:
             if data.get(channel_id)["Work"] == "True":
-                if event.message.media:
+                print(event.message.media)
+                if "MessageMediaPhoto" in str(event.message.media):
                     await client.download_media(event.message.media,"./photo.jpg") 
                     if event.message.message:
                         with open('./photo.jpg', "rb") as f:
@@ -49,7 +49,8 @@ async def my_event_handler(event):
                         with open('./photo.jpg', "rb") as f:
                             await bot.send_photo(5841914430, f, reply_markup=url_kbd(real_id, event))
                 else:
-                    await bot.send_message(5841914430,format_message(title, f"({first_name} {last_name}) {username}", event.message.message), reply_markup=url_kbd(real_id, event))
+                    if event.message.message:
+                        await bot.send_message(5841914430,format_message(title, f"({first_name} {last_name}) {username}", event.message.message), reply_markup=url_kbd(real_id, event))
 
         return
 
