@@ -8,6 +8,12 @@ def stop_kbd():
                     text="add STOP keyword", 
                     callback_data="add_stop_keyword"
                 )
+            ],
+            [
+                InlineKeyboardButton(
+                    text="delete STOP keyword", 
+                    callback_data="del_stop_keyword"
+                )
             ]
         ]
     )
