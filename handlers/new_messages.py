@@ -1,5 +1,6 @@
 from loader import client,bot
 from telethon import TelegramClient, events, utils
+from telethon.tl.types import MessageMediaPhoto
 from keyboards.url_keyboard import url_kbd
 from utils.tools import format_message, get_keywords
 import json
@@ -39,8 +40,10 @@ async def my_event_handler(event):
         data = json.load(f)
         if channel_id in data:
             if data.get(channel_id)["Work"] == "True":
-                print(event.message.media)
-                if "MessageMediaPhoto" in str(event.message.media):
+                #print(event.message.media)
+                print(isinstance(event.message.media, MessageMediaPhoto))
+                
+                if isinstance(event.message.media, MessageMediaPhoto):
                     await client.download_media(event.message.media,"./photo.jpg") 
                     if event.message.message:
                         with open('./photo.jpg', "rb") as f:
