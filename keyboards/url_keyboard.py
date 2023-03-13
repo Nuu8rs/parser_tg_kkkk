@@ -17,4 +17,16 @@ def url_kbd(real_id, event):
         ]
     )
 
+def url_kbd_2(real_id,event,invite_link):
+    return InlineKeyboardMarkup(
+        inline_keyboard=[
+            [
+                InlineKeyboardButton(
+                    text="🔗", 
+                    url=invite_link
+                )
+            ]
+        ]
+    )   
+
 

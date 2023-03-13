@@ -6,7 +6,7 @@ from telethon.tl.functions.messages import ImportChatInviteRequest
 from telethon.tl.functions.channels import LeaveChannelRequest
 from telethon.sync import TelegramClient
 from telethon.tl.functions.messages import GetDialogsRequest
-from telethon.tl.types import InputPeerEmpty
+from telethon.tl.types import InputPeerEmpty,Channel
 import json
 
 @dp.callback_query_handler(text_contains="channel_add")
@@ -41,18 +41,25 @@ async def join_channel(message_chanel):
    except:
       try:
          title = await client(ImportChatInviteRequest(message))
-         await add_to_json(title,True)
+         res = await client.get_entity(message_chanel)
+         if isinstance(res, Channel):
+            await add_to_json(title,True,options="Channel",invite_link = message_chanel)
+         else:
+            await add_to_json(title,True,options="Chat",invite_link = message_chanel)            
          return True
       except Exception as E:
          if str(E) == "The authenticated user is already a participant of the chat (caused by ImportChatInviteRequest)":
             res = await client.get_entity(message_chanel)
-            await add_to_json(res,False)
+            if isinstance(res, Channel):
+               await add_to_json(res,False,options="Channel",invite_link = message_chanel)
+            else:
+               await add_to_json(res,False,options="Chat",invite_link = message_chanel)      
             return True
          return False
 
 
 
-async def add_to_json(title,operator):
+async def add_to_json(title,operator,options,invite_link):
    if operator:
       id_channel = "-100" + str(title.chats[0].id)
       title_channel = title.chats[0].title
@@ -61,7 +68,7 @@ async def add_to_json(title,operator):
       title_channel = title.title
    with open('file.json', encoding='utf8') as f: 
       data = json.load(f) 
-      data[str(id_channel)]={"Group_Name":title_channel,"Work":"True"}
+      data[str(id_channel)]={"Group_Name":title_channel,"Work":"True","Type":options,"Invite_link":invite_link}
    with open('file.json', 'w', encoding='utf8') as outfile: 
       json.dump(data, outfile, ensure_ascii=False, indent=2) 
       

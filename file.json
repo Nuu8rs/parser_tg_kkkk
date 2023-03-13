@@ -51,12 +51,16 @@
     "Group_Name": "ТЕСТ 2",
     "Work": "True"
   },
-  "-1001904204672": {
-    "Group_Name": "DEBUG",
-    "Work": "True"
-  },
   "-100913299438": {
     "Group_Name": "TEST GROUPS",
-    "Work": "True"
+    "Work": "True",
+    "Type": "Chat",
+    "Invite_link": "https://t.me/+sXEnAUwIwJEwNWYy"
+  },
+  "-1001904204672": {
+    "Group_Name": "DEBUG",
+    "Work": "True",
+    "Type": "Channel",
+    "Invite_link": "https://t.me/+3PBxiZpFUZcyMzI6"
   }
 }
