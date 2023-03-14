@@ -44,13 +44,15 @@ async def my_event_handler(event):
             print("stop keyword splitted")
             return
     global text_buffer
-    for txt in text_buffer:
-        if txt == event.message.text or txt in event.message.text:
-            print(f"text buffer\n{txt}\n{event.message.text}")
-            return
-    text_buffer.append(event.message.text)
-    if len(text_buffer) > 10:
-        text_buffer = text_buffer[-10::1]
+    if event.message.text != "":
+        for txt in text_buffer:
+            if txt == event.message.text or txt in event.message.text:
+                print(f"text buffer\n{txt}\n{event.message.text}")
+                return
+
+        text_buffer.append(event.message.text)
+        if len(text_buffer) > 10:
+            text_buffer = text_buffer[-10::1]
 
     try:
         channel_id = "-100"+str(event.message.peer_id.channel_id)
