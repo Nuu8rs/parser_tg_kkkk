@@ -37,9 +37,9 @@ async def process_name(message: types.Message, state: FSMContext):
     await state.finish()
     if "," in message.text:
         for word in message.text.split(","):
-            add_keyword(word.lstrip().rstrip())
+            add_keyword(word.lstrip().rstrip().lower())
     else:
-        add_keyword(message.text.lstrip().rstrip())
+        add_keyword(message.text.lstrip().rstrip().lower())
     await message.answer("Успешно добавлено")
 
 @dp.callback_query_handler(lambda c: c.data == 'del_stop_keyword')
@@ -52,8 +52,8 @@ async def process_name(message: types.Message, state: FSMContext):
     await state.finish()
     if "," in message.text:
         for word in message.text.split(","):
-            await message.answer(del_keyword(word.lstrip().rstrip()))
+            await message.answer(del_keyword(word.lstrip().rstrip().lower()))
     else:
         
-        await message.answer(del_keyword(message.text.lstrip().rstrip()))
+        await message.answer(del_keyword(message.text.lstrip().rstrip().lower()))
 

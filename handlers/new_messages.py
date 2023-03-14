@@ -4,6 +4,10 @@ from telethon.tl.types import MessageMediaPhoto
 from keyboards.url_keyboard import url_kbd,url_kbd_2
 from utils.tools import format_message, get_keywords
 import json
+from Config import UserId
+
+text_buffer = []
+
 @client.on(events.NewMessage)
 async def my_event_handler(event):
 
@@ -32,8 +36,22 @@ async def my_event_handler(event):
     if hasattr(chat, 'title'):
         title = chat.title
     for word in get_keywords():
-        if word in event.message.text.split():
+        if " " in word:
+            if word in event.message.text.lower():
+                print("stop keyword")
+                return
+        elif word in event.message.text.lower().split():
+            print("stop keyword splitted")
             return
+    global text_buffer
+    for txt in text_buffer:
+        if txt == event.message.text or txt in event.message.text:
+            print(f"text buffer\n{txt}\n{event.message.text}")
+            return
+    text_buffer.append(event.message.text)
+    if len(text_buffer) > 10:
+        text_buffer = text_buffer[-10::1]
+
     try:
         channel_id = "-100"+str(event.message.peer_id.channel_id)
     except:
@@ -49,28 +67,28 @@ async def my_event_handler(event):
                     with open('./photo.jpg', "rb") as f:
                         try:
                             if data.get(channel_id)["Type"] == "Chat":
-                                await bot.send_photo(5456085368, f,caption=format_message(title, f"({first_name} {last_name}) {username}", event.message.message), reply_markup=url_kbd_2(real_id, event,data.get(channel_id)["Invite_link"]))
+                                await bot.send_photo(UserId, f,caption=format_message(title, f"({first_name} {last_name}) {username}", event.message.message), reply_markup=url_kbd_2(real_id, event,data.get(channel_id)["Invite_link"]))
                             else:
-                                await bot.send_photo(5456085368, f,caption=format_message(title, f"({first_name} {last_name}) {username}", event.message.message), reply_markup=url_kbd(real_id, event))
+                                await bot.send_photo(UserId, f,caption=format_message(title, f"({first_name} {last_name}) {username}", event.message.message), reply_markup=url_kbd(real_id, event))
                         except:
-                                await bot.send_photo(5456085368, f,caption=format_message(title, f"({first_name} {last_name}) {username}", event.message.message), reply_markup=url_kbd(real_id, event))                            
+                                await bot.send_photo(UserId, f,caption=format_message(title, f"({first_name} {last_name}) {username}", event.message.message), reply_markup=url_kbd(real_id, event))                            
                 else:
                     with open('./photo.jpg', "rb") as f:
                         try:
                             if data.get(channel_id)["Type"] == "Chat":
-                                await bot.send_photo(5456085368, f, reply_markup=url_kbd_2(real_id, event,data.get(channel_id)["Invite_link"]))
+                                await bot.send_photo(UserId, f, reply_markup=url_kbd_2(real_id, event,data.get(channel_id)["Invite_link"]))
                             else:
-                                await bot.send_photo(5456085368, f, reply_markup=url_kbd(real_id, event))
+                                await bot.send_photo(UserId, f, reply_markup=url_kbd(real_id, event))
                         except:
-                                await bot.send_photo(5456085368, f, reply_markup=url_kbd(real_id, event))                            
+                                await bot.send_photo(UserId, f, reply_markup=url_kbd(real_id, event))                            
             else:
                 if event.message.message:
                     try:
                         if data.get(channel_id)["Type"] == "Chat":
-                            await bot.send_message(5456085368,format_message(title, f"({first_name} {last_name}) {username}", event.message.message), reply_markup=url_kbd_2(real_id, event,data.get(channel_id)["Invite_link"]))
+                            await bot.send_message(UserId,format_message(title, f"({first_name} {last_name}) {username}", event.message.message), reply_markup=url_kbd_2(real_id, event,data.get(channel_id)["Invite_link"]))
                         else:
-                            await bot.send_message(5456085368,format_message(title, f"({first_name} {last_name}) {username}", event.message.message), reply_markup=url_kbd(real_id, event))
+                            await bot.send_message(UserId,format_message(title, f"({first_name} {last_name}) {username}", event.message.message), reply_markup=url_kbd(real_id, event))
                     except:
-                        await bot.send_message(5456085368,format_message(title, f"({first_name} {last_name}) {username}", event.message.message), reply_markup=url_kbd(real_id, event))
+                        await bot.send_message(UserId,format_message(title, f"({first_name} {last_name}) {username}", event.message.message), reply_markup=url_kbd(real_id, event))
         return
 
